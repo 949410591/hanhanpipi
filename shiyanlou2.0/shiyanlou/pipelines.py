@@ -10,7 +10,10 @@ from scrapy.exceptions import DropItem
 
 			
 class ShiyanlouPipeline(object):
-    def process_item(self, item, spider): 
+    def process_item(self, item, spider):
+
+		""" 对不同的 item 使用不同的处理函数
+        """
         if isinstance(item,CourseItem):
             self._process_course_item(item)
         else:
@@ -24,9 +27,15 @@ class ShiyanlouPipeline(object):
         self.session.add(Course(**item))
         
     def _process_user_item(self, item):
+		# 抓取到的数据类似 'L100'，需要去掉 'L' 然后转化为 int
         item['level'] = int(item['level'][1:])
+		 # 抓取到的数据类似 '2017-01-01 加入实验楼' 
+		 # 把其中的日期字符串转换为 date 对象
+		
         item['join_date'] = datetime.strptime(item['join_date'].split()[0], '%Y-%m-%d').date()
+		# 学习课程数目转化为 int
         item['learn_courses_num'] = int(item['learn_courses_num'])
+		# 添加到 session
         self.session.add(User(**item))
 
 
