@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}
+  {{ chapter.name }}
+{% endblock %}
+
+{% block css %}
+  {{ super() }}
+  <link href="http://vjs.zencdn.net/6.2.7/video-js.css" rel="stylesheet">
+{% endblock %}
+
+
+{% block body %}
+  <video class="video-js vjs-16-9 vjs-big-play-centered" data-setup='{"fluid":true, "controls": true}'>
+  <!-- 视频地址放入source 中，并设置好视频的类型 -->
+  <source src="{{ chapter.video_url }}" type='video/mp4'>
+{% endblock %}
+
+
+
+{% block js %}
+  {{ super() }}
+  <script src="http://vjs.zencdn.net/6.2.8/video.js"></script>
+{% endblock %}
